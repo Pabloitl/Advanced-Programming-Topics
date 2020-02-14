@@ -1,24 +1,21 @@
 package MensajeICPC;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Encripcion {
 
     public void validateInput(String input) throws Exception {
-        String regex = "\\d{2}\\/\\d{2}\\/\\d{2} \\d{2}:\\d{2}:\\d{2}";
+        String regex = "\\d{2}\\/\\d{2}\\/\\d{4} \\d{2}:\\d{2}:\\d{2}";
 
-        if (!input.matches(regex)) {
+        if (!input.matches(regex))
             throw new Exception("Invalid Input");
-        }
     }
 
-    public String proccesInput(String input) {
-        String[] extra = {"/", ":", " "};
-
-        for (String c : extra) {
-            input = input.replaceAll(c, "");
-        }
+    public String processInput(String input) {
+        String extra = "[\\s/:]";
+        input = input.replaceAll(extra, "");
         return toBinary(input);
     }
 
@@ -34,49 +31,37 @@ public class Encripcion {
         return result;
     }
 
-    public void writeMatrix(String binary, JPanel[][] arr) {
-        int i = 0, j = 0, m = arr.length, n = arr[0].length;
-        writeMatrix(binary, 0, arr, i, j, m, n);
+    public void writeMatrix(String binary, JPanel[][] matrix) {
+        writeMatrix(binary, 0, matrix, 0, 0, matrix.length, matrix[0].length);
     }
 
-    public void writeMatrix(String binary, int total, JPanel[][] arr, int i,
+    public void writeMatrix(String binary, int total, JPanel[][] matrix, int i,
             int j, int m, int n) {
-        if (i >= m || j >= n) {
-            return;
-        }
+        if (i >= m || j >= n) return;
 
-        for (int p = i; p < n; p++) {
-            arr[i][p].setBackground(
-                    (binary.charAt(total++) == '1')
-                    ? Color.WHITE
-                    : Color.BLACK);
-        }
+        for (int p = i; p < n; p++)
+            changeColor(binary, total++, matrix, i, p);
 
-        for (int p = i + 1; p < m; p++) {
-            arr[p][n - 1].setBackground(
-                    (binary.charAt(total++) == '1')
-                    ? Color.WHITE
-                    : Color.BLACK);
-        }
+        for (int p = i + 1; p < m; p++)
+            changeColor(binary, total++, matrix, p, n - 1);
 
-        if ((m - 1) != i) {
-            for (int p = n - 2; p >= j; p--) {
-                arr[m - 1][p].setBackground(
-                        (binary.charAt(total++) == '1')
+        if ((m - 1) != i)
+            for (int p = n - 2; p >= j; p--)
+                changeColor(binary, total++, matrix, m - 1, p);
+
+        if ((n - 1) != j)
+            for (int p = m - 2; p > i; p--)
+                changeColor(binary, total++, matrix, p, j);
+        
+        writeMatrix(binary, total, matrix, i + 1, j + 1, m - 1, n - 1);
+    }
+    
+    private void changeColor(String binary, int pos, JPanel[][] matrix, int i,
+            int j) {
+        matrix[i][j].setBackground(
+                        (binary.charAt(pos) == '1')
                         ? Color.WHITE
                         : Color.BLACK);
-            }
-        }
-
-        if ((n - 1) != j) {
-            for (int p = m - 2; p > i; p--) {
-                arr[p][j].setBackground(
-                        (binary.charAt(total++) == '1')
-                        ? Color.WHITE
-                        : Color.BLACK);
-            }
-        }
-        writeMatrix(binary, total, arr, i + 1, j + 1, m - 1, n - 1);
     }
 
     public String interpretMatrix(JPanel[][] matrix) {
@@ -86,11 +71,24 @@ public class Encripcion {
             String rowResult = "";
 
             for (int j = 0; j < matrix[0].length; j++) {
-                rowResult += (matrix[i][j].getBackground().equals(Color.BLACK)
+                rowResult += (matrix[i][j].getBackground().equals(Color.WHITE)
                         ? "1"
                         : "0");
             }
             result += Integer.parseInt(rowResult, 2);
+        }
+        return result;
+    }
+
+    public String solve(String input, JPanel[][] matrix) {
+        String result = "";
+        try {
+            validateInput(input);
+            writeMatrix(processInput(input), matrix);
+            result = interpretMatrix(matrix);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            System.exit(1);
         }
         return result;
     }
