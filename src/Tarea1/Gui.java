@@ -43,11 +43,11 @@ public class Gui {
         panelCE      = new JPanel();
         panelCO      = new JPanel();
         panelCC      = new JPanel();
-        lblNorte     = new JLabel("Panel del Norte");
-        lblSur       = new JLabel("Panel del Sur");
-        lblEste      = new JLabel("Panel del Este");
-        lblOeste     = new JLabel("Panel del Oeste");
-        lblCentro    = new JLabel("Panel del Centro");
+        lblNorte     = new JLabel("North");
+        lblSur       = new JLabel("South");
+        lblEste      = new JLabel("East");
+        lblOeste     = new JLabel("West");
+        lblCentro    = new JLabel("Center");
         lblNorteImg  = new JLabel();
         lblSurImg    = new JLabel();
         lblEsteImg   = new JLabel();
@@ -63,6 +63,10 @@ public class Gui {
     public void atributos() {
         ventana.setSize(400, 200);
         ventana.setResizable(true);
+        panelN.setBackground(Color.YELLOW);
+        panelS.setBackground(Color.LIGHT_GRAY);
+        panelE.setBackground(new Color(255, 153, 204));
+        panelO.setBackground(Color.RED);
         panelC.setLayout(new BorderLayout());
         panelCN.setBackground(Color.CYAN);
         panelCS.setBackground(Color.MAGENTA);
