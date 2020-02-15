@@ -1,6 +1,7 @@
 package MensajeICPC;
 
 import java.awt.Color;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -64,8 +65,8 @@ public class Encripcion {
                         : Color.BLACK);
     }
 
-    public String interpretMatrix(JPanel[][] matrix) {
-        String result = "";
+    public String[] interpretMatrix(JPanel[][] matrix) {
+        String[] result = new String[matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
             String rowResult = "";
@@ -75,17 +76,22 @@ public class Encripcion {
                         ? "1"
                         : "0");
             }
-            result += Integer.parseInt(rowResult, 2);
+            result[i] = String.valueOf(Integer.parseInt(rowResult, 2));
         }
         return result;
     }
+    
+    public void writeAnswers(String[] answer, JLabel[] text) {
+        for (int i = 0; i < answer.length; i++)
+            text[i].setText(answer[i]);
+    }
 
-    public String solve(String input, JPanel[][] matrix) {
+    public String solve(String input, JPanel[][] matrix, JLabel[] text) {
         String result = "";
         try {
             validateInput(input);
             writeMatrix(processInput(input), matrix);
-            result = interpretMatrix(matrix);
+            writeAnswers(interpretMatrix(matrix), text);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             System.exit(1);

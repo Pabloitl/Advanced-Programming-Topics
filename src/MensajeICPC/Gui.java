@@ -1,5 +1,6 @@
 package MensajeICPC;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,15 +10,22 @@ import javax.swing.JPanel;
 public class Gui {
     public static int HEIGHT = 8, WIDTH = 7;
     private JPanel[][] panels;
+    private JPanel[]   respuestaPanels;
+    private JLabel[]   respuestaLabels;
     private JFrame ventana;
 
     // Constructor que inicializa los componentes
     public Gui() {
         ventana = new JFrame();
         panels = new JPanel[HEIGHT][WIDTH];
-        for (int i = 0; i < HEIGHT; i++)
+        respuestaPanels = new JPanel[HEIGHT];
+        respuestaLabels = new JLabel[HEIGHT];
+        for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++)
                 panels[i][j] = new JPanel();
+            respuestaPanels[i] = new JPanel();
+            respuestaLabels[i] = new JLabel();
+        }
 
         this.atributos();
         this.armado();
@@ -32,14 +40,17 @@ public class Gui {
         ventana.setSize(400, 400);
         ventana.setResizable(true);
         ventana.setLayout(new GridLayout(HEIGHT, WIDTH + 1));
-        System.out.println("Mensaje: " + new Encripcion().solve(input, panels));
+        new Encripcion().solve(input, panels, respuestaLabels);
     }
 
     // Armar la interfaz
     public void armado() {
-        for (int i = 0; i < HEIGHT; i++)
+        for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++)
                 ventana.add(panels[i][j]);
+            ventana.add(respuestaPanels[i]);
+            respuestaPanels[i].add(respuestaLabels[i]);
+        }
     }
 
     // Asignar los escuchas
