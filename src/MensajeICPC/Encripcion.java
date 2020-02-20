@@ -10,7 +10,7 @@ public class Encripcion {
     public void validateInput(String input) throws Exception {
         String regex = "\\d{2}\\/\\d{2}\\/\\d{4} \\d{2}:\\d{2}:\\d{2}";
 
-        if (!input.matches(regex))
+        if (input == null || !input.matches(regex))
             throw new Exception("Invalid Input");
     }
 
@@ -32,70 +32,62 @@ public class Encripcion {
         return result;
     }
 
-    public void writeMatrix(String binary, JPanel[][] matrix) {
-        writeMatrix(binary, 0, matrix, 0, 0, matrix.length, matrix[0].length);
+    public void writeMatrix(String binary, JPanel[][] matrix,
+            JLabel[][] numbers) {
+        writeMatrix(binary, 0, matrix, numbers, 0, 0, matrix.length,
+                matrix[0].length);
     }
 
-    public void writeMatrix(String binary, int total, JPanel[][] matrix, int i,
-            int j, int m, int n) {
+    public void writeMatrix(String binary, int total, JPanel[][] matrix,
+            JLabel[][] numbers, int i, int j, int m, int n) {
         if (i >= m || j >= n) return;
 
         for (int p = i; p < n; p++)
-            changeColor(binary, total++, matrix, i, p);
+            personalizePanels(binary, total++, matrix, numbers, i, p);
 
         for (int p = i + 1; p < m; p++)
-            changeColor(binary, total++, matrix, p, n - 1);
+            personalizePanels(binary, total++, matrix, numbers, p, n - 1);
 
         if ((m - 1) != i)
             for (int p = n - 2; p >= j; p--)
-                changeColor(binary, total++, matrix, m - 1, p);
+                personalizePanels(binary, total++, matrix, numbers, m - 1, p);
 
         if ((n - 1) != j)
             for (int p = m - 2; p > i; p--)
-                changeColor(binary, total++, matrix, p, j);
-        
-        writeMatrix(binary, total, matrix, i + 1, j + 1, m - 1, n - 1);
-    }
-    
-    private void changeColor(String binary, int pos, JPanel[][] matrix, int i,
-            int j) {
-        matrix[i][j].setBackground(
-                        (binary.charAt(pos) == '1')
-                        ? Color.WHITE
-                        : Color.BLACK);
+                personalizePanels(binary, total++, matrix, numbers, p, j);
+
+        writeMatrix(binary, total, matrix, numbers, i + 1, j + 1, m - 1, n - 1);
     }
 
-    public String[] interpretMatrix(JPanel[][] matrix) {
-        String[] result = new String[matrix.length];
+    private void personalizePanels(String binary, int pos, JPanel[][] matrix,
+            JLabel[][] numbers, int i, int j) {
+        int color = pos / 4 % 5;
 
-        for (int i = 0; i < matrix.length; i++) {
-            String rowResult = "";
+        numbers[i][j].setText(String.valueOf(binary.charAt(pos)));
+        matrix[i][j].setBackground((color == 0) ? Color.CYAN
+                : (color == 1) ? Color.PINK : (color == 2) ? Color.YELLOW : (color == 3) ? Color.MAGENTA : Color.GREEN);
+    }
 
-            for (int j = 0; j < matrix[0].length; j++) {
-                rowResult += (matrix[i][j].getBackground().equals(Color.WHITE)
-                        ? "1"
-                        : "0");
+    public String interpretMatrix(JLabel[][] numbers) {
+        String result = "";
+
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers[0].length; j++) {
+                String rowResult = (numbers[i][j].getText().equals("1") ? "1" : "0");
+                result += rowResult;
             }
-            result[i] = String.valueOf(Integer.parseInt(rowResult, 2));
         }
         return result;
     }
-    
-    public void writeAnswers(String[] answer, JLabel[] text) {
-        for (int i = 0; i < answer.length; i++)
-            text[i].setText(answer[i]);
-    }
 
-    public String solve(String input, JPanel[][] matrix, JLabel[] text) {
-        String result = "";
+    public void solve(String input, JPanel[][] matrix, JLabel[][] numbers, JLabel answer) {
         try {
             validateInput(input);
-            writeMatrix(processInput(input), matrix);
-            writeAnswers(interpretMatrix(matrix), text);
+            writeMatrix(processInput(input), matrix, numbers);
+            answer.setText(interpretMatrix(numbers));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-            System.exit(1);
+            System.exit(0);
         }
-        return result;
     }
 }
