@@ -50,28 +50,29 @@ public class Gui {
         ventana.setResizable(true);
         ventana.setLayout(new BorderLayout());
         matrixPanel.setLayout(new GridLayout(HEIGHT, WIDTH));
-        for (int i = 0; i < HEIGHT; i++)
-            for (int j = 0; j < WIDTH; j++) {
-                matrixPanels[i][j].setBorder(matrixBorder);
-            }
         respuestaPanel.setLayout(new FlowLayout());
         respuestaLabel.setHorizontalAlignment(JLabel.CENTER);
         respuestaPanel.setBorder(matrixBorder);
         respuestaPanel.setBackground(Color.LIGHT_GRAY);
-        new Encripcion().solve(input, matrixPanels, matrixLabels,
-                respuestaLabel);
+        new Encripcion().solve(input, matrixPanels, matrixLabels, respuestaLabel);
+        for (int i = 0; i < HEIGHT; i++)
+            for (int j = 0; j < WIDTH; j++) {
+                matrixPanels[i][j].setBorder(matrixBorder);
+                matrixPanels[i][j].setLayout(new BorderLayout());
+                matrixLabels[i][j].setHorizontalAlignment(JLabel.CENTER);
+            }
     }
 
     // Armar la interfaz
     public void armado() {
         respuestaPanel.add(respuestaLabel);
+        ventana.add(matrixPanel, BorderLayout.CENTER);
+        ventana.add(respuestaPanel, BorderLayout.SOUTH);
         for (int i = 0; i < HEIGHT; i++)
             for (int j = 0; j < WIDTH; j++) {
                 matrixPanel.add(matrixPanels[i][j]);
-                matrixPanels[i][j].add(matrixLabels[i][j]);
+                matrixPanels[i][j].add(matrixLabels[i][j], BorderLayout.CENTER);
             }
-        ventana.add(matrixPanel, BorderLayout.CENTER);
-        ventana.add(respuestaPanel, BorderLayout.SOUTH);
     }
 
     // Asignar los escuchas

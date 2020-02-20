@@ -73,7 +73,7 @@ public class Encripcion {
 
         for (int i = 0; i < numbers.length; i++) {
             for (int j = 0; j < numbers[0].length; j++) {
-                String rowResult = (numbers[i][j].getText().equals("1") ? "1" : "0");
+                String rowResult = numbers[i][j].getText();
                 result += rowResult;
             }
         }
