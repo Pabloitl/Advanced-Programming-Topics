@@ -62,10 +62,17 @@ public class Encripcion {
     private void personalizePanels(String binary, int pos, JPanel[][] matrix,
             JLabel[][] numbers, int i, int j) {
         int color = pos / 4 % 5;
+        Color choosedColor;
 
+        switch (pos % 5) {
+            case 0: choosedColor = Color.CYAN; break;
+            case 1: choosedColor = Color.PINK; break;
+            case 2: choosedColor = Color.YELLOW; break;
+            case 3: choosedColor = Color.MAGENTA; break;
+            default: choosedColor = Color.GREEN; break;
+        }
         numbers[i][j].setText(String.valueOf(binary.charAt(pos)));
-        matrix[i][j].setBackground((color == 0) ? Color.CYAN
-                : (color == 1) ? Color.PINK : (color == 2) ? Color.YELLOW : (color == 3) ? Color.MAGENTA : Color.GREEN);
+        matrix[i][j].setBackground(choosedColor);
     }
 
     public String interpretMatrix(JLabel[][] numbers) {
