@@ -8,15 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Gui {
+public class CrazyButtons {
     private JFrame    window;
     private JPanel    mainPanel;
     private JButton[] crazyButtons;
 
     private final int WIDTH = 500, HEIGHT = 400;
-    private final int BTN_WIDTH = 105, BTN_HEIGHT = 25;
 
-    public Gui(int n) {
+    public CrazyButtons(int n) {
         window       = new JFrame("Crazy Buttons");
         mainPanel    = new JPanel();
         crazyButtons = new JButton[n];
@@ -64,10 +63,10 @@ public class Gui {
 
     private void positionate(JButton button) {
         Random generator = new Random();
-        int x = generator.nextInt(WIDTH - BTN_WIDTH);
-        int y = generator.nextInt(HEIGHT - BTN_HEIGHT);
+        int x = generator.nextInt(WIDTH - button.getWidth());
+        int y = generator.nextInt(HEIGHT - button.getHeight());
 
-        button.setBounds(x, y, BTN_WIDTH, BTN_HEIGHT);
+        button.setBounds(x, y, button.getWidth(), button.getHeight());
     }
 
     public class Escucha extends MouseAdapter {
