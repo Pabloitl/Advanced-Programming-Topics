@@ -13,7 +13,7 @@ public class CrazyButtons {
     private JPanel    mainPanel;
     private JButton[] crazyButtons;
 
-    private final int WIDTH = 500, HEIGHT = 400;
+    private final int WIDTH = 500, HEIGHT = 500;
 
     public CrazyButtons(int n) {
         window       = new JFrame("Crazy Buttons");
@@ -64,7 +64,7 @@ public class CrazyButtons {
     private void positionate(JButton button) {
         Random generator = new Random();
         int x = generator.nextInt(WIDTH - button.getWidth());
-        int y = generator.nextInt(HEIGHT - button.getHeight());
+        int y = generator.nextInt(HEIGHT - button.getHeight() * 2);
 
         button.setBounds(x, y, button.getWidth(), button.getHeight());
     }
