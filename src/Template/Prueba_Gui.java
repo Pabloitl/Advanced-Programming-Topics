@@ -1,4 +1,4 @@
-package paka;
+package Template;
 
 public class Prueba_Gui {
 
