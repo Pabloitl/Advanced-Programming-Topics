@@ -8,14 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class CrazyButtons {
+public class CrazyButtonsAnonima {
     private JFrame    window;
     private JPanel    mainPanel;
     private JButton[] crazyButtons;
 
     private final int WIDTH = 500, HEIGHT = 500;
 
-    public CrazyButtons(int n) {
+    public CrazyButtonsAnonima(int n) {
         window       = new JFrame("Crazy Buttons");
         mainPanel    = new JPanel();
         crazyButtons = new JButton[n];
@@ -48,10 +48,31 @@ public class CrazyButtons {
 
     // Asignar los escuchas
     public void escuchas() {
-        Escucha controller = new Escucha();
-
         for (JButton btn : crazyButtons)
-            btn.addMouseListener(controller);
+            btn.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                for (JButton btn : crazyButtons)
+                    if(e.getComponent().equals(btn))
+                        positionate(btn);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent me) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+            }
+                });
     }
 
     // Lanzar la interfaz gráfica
@@ -67,30 +88,5 @@ public class CrazyButtons {
         int y = generator.nextInt(HEIGHT - button.getHeight() * 2);
 
         button.setBounds(x, y, button.getWidth(), button.getHeight());
-    }
-
-    public class Escucha implements MouseListener {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            for (JButton btn : crazyButtons)
-                if(e.getComponent().equals(btn))
-                    positionate(btn);
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent me) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent me) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent me) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent me) {
-        }
     }
 }
