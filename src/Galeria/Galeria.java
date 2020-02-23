@@ -6,14 +6,10 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FilenameFilter;
-import java.util.Arrays;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Galeria {
     private JFrame window;
@@ -22,7 +18,8 @@ public class Galeria {
     private JLabel[] images;
 
     private final File imgSource;
-    private final int WIDTH = 400, HEIGHT = 400;
+    private final int WIDTH = 400, HEIGHT = 400,
+            THUMBNAIL_SIZE = WIDTH / 4, BIG_IMAGE_SIZE = WIDTH * 3 / 4 - WIDTH / 8;
     private final String SOURCE = "src/Galeria/Imagenes/";
 
     public Galeria() {
@@ -48,14 +45,16 @@ public class Galeria {
         window.setResizable(true);
         window.setLayout(new BorderLayout());
         selectionPanel.setLayout(new FlowLayout());
+        imagePanel.setLayout(new BorderLayout());
+        bigImage.setIcon(scaleImage(SOURCE + imagesList[0], BIG_IMAGE_SIZE));
         for (int i = 0; i < images.length; i++)
-            images[i].setIcon(scaleImage(SOURCE + imagesList[i], 100));
+            images[i].setIcon(scaleImage(SOURCE + imagesList[i], THUMBNAIL_SIZE));
     }
 
     public void armado() {
-        window.add(selectionPanel, BorderLayout.WEST);
-        window.add(imagePanel, BorderLayout.CENTER);
-        imagePanel.add(bigImage);
+        window.add(selectionPanel, BorderLayout.CENTER);
+        window.add(imagePanel, BorderLayout.EAST);
+        imagePanel.add(bigImage, BorderLayout.CENTER);
         for (JLabel img : images)
             selectionPanel.add(img);
     }
@@ -80,7 +79,7 @@ public class Galeria {
     }
 
     private ImageIcon scaleImage(ImageIcon original, int max) {
-        float ratio = 9 / 16f;
+        float ratio = original.getIconHeight() / (float) original.getIconWidth();
         ImageIcon scaled   = new ImageIcon(
                 original.getImage().getScaledInstance(
                         max,
@@ -92,13 +91,11 @@ public class Galeria {
     class Escucha extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-            for (int i = 0; i < images.length; i++) {
+            for (int i = 0; i < images.length; i++)
                 if (images[i].equals(e.getComponent())) {
                     String imgRoute = SOURCE + imgSource.list()[i];
-                    bigImage.setIcon(scaleImage(imgRoute, window.getWidth() / 2));
+                    bigImage.setIcon(scaleImage(imgRoute, BIG_IMAGE_SIZE));
                 }
-            }
-
         }
     }
 }
