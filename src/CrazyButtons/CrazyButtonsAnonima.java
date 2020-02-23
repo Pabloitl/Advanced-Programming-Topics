@@ -48,31 +48,32 @@ public class CrazyButtonsAnonima {
 
     // Asignar los escuchas
     public void escuchas() {
+        MouseListener controller = new MouseListener() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    for (JButton btn : crazyButtons)
+                        if(e.getComponent().equals(btn))
+                            positionate(btn);
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent me) {
+                }
+
+                @Override
+                public void mousePressed(MouseEvent me) {
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent me) {
+                }
+
+                @Override
+                public void mouseExited(MouseEvent me) {
+                }
+            };
         for (JButton btn : crazyButtons)
-            btn.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                for (JButton btn : crazyButtons)
-                    if(e.getComponent().equals(btn))
-                        positionate(btn);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent me) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent me) {
-            }
-                });
+            btn.addMouseListener(controller);
     }
 
     // Lanzar la interfaz gráfica

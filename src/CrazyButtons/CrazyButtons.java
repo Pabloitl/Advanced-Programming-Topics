@@ -69,7 +69,7 @@ public class CrazyButtons {
         button.setBounds(x, y, button.getWidth(), button.getHeight());
     }
 
-    public class Escucha implements MouseListener {
+    class Escucha implements MouseListener {
         @Override
         public void mouseEntered(MouseEvent e) {
             for (JButton btn : crazyButtons)
