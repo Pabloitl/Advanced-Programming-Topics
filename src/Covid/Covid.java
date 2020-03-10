@@ -1,7 +1,6 @@
 package Covid;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.util.Arrays;
 import javax.swing.JFrame;
@@ -26,7 +25,7 @@ public class Covid {
     JScrollPane filesScroll, tableScroll;
     JLabel fileLabel;
     String[] fileNames;
-    
+
     public Covid() {
         fileNames = DataBuilder.listFileNames(DataBuilder.DIR);
         String[][] data =
@@ -42,7 +41,9 @@ public class Covid {
         tableScroll = new JScrollPane(dataTable);
         fileLabel = new JLabel();
         dataRenderer = new DefaultTableCellRenderer();
-        
+        dataTableModel.addRow(DataBuilder.getSumRow(data, new int[] { 3, 4, 5 }));
+
+
         this.atributos();
         this.armado();
         this.escuchas();
@@ -83,23 +84,22 @@ public class Covid {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
-    
+
     class MyListListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
             if (lse.getValueIsAdjusting())
                 return;
-            
+
             String newFile = filesList.getSelectedValue().toString();
             String[][] data
                     = DataBuilder.processFile(
                             DataBuilder.DIR + newFile + ".csv");
-            int temp = DataBuilder.sumColumn(data, 5);
-            System.out.println(temp);
             fileLabel.setText(newFile);
             dataTableModel.setRowCount(0);
             for (int i = 1; i < data.length; i++)
                     dataTableModel.addRow(data[i]);
+            dataTableModel.addRow(DataBuilder.getSumRow(data, new int[] { 3, 4, 5 }));
         }
     }
 }

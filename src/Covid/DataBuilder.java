@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import javax.swing.JOptionPane;
 
 public class DataBuilder {
@@ -14,7 +17,7 @@ public class DataBuilder {
         int i = 0;
         String[] tokens = line.split(SEP);
         ArrayList<String> newTokens = new ArrayList();
-        
+
         if (tokens[i].contains("\""))
             newTokens.add((tokens[i++] + ", " + tokens[i++]).replace("\"", ""));
         else
@@ -28,11 +31,11 @@ public class DataBuilder {
     public static String[][] processFile(String file) {
         BufferedReader in = null;
         ArrayList<String[]> linesArray = new ArrayList();
-        
+
         try {
             in = new BufferedReader(new FileReader(file));
             String line;
-            
+
             while ((line = in.readLine()) != null)
                 linesArray.add(processLine(line));
         } catch (Exception ex) {
@@ -44,7 +47,7 @@ public class DataBuilder {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-        
+
         return linesArray.toArray(new String[][] {});
     }
 
@@ -59,20 +62,33 @@ public class DataBuilder {
             files[i] = files[i].substring(0, files[i].length() - 4);
         return files;
     }
-    
+
     public static int sumColumn(String[][] arr, int column) {
         int sum = 0;
-        
+
         for (int i = 0; i < arr.length; i++)
             try {
                 sum += Integer.parseInt(arr[i][column]);
             } catch (Exception e) {
-                
+
             }
         return sum;
     }
+
+    public static String[] getSumRow(String[][] arr, int[] columns) {
+        String[] results = new String[max(columns) + 1];
+
+        results[0] = "Total";
+        for (int column : columns)
+            results[column] = String.valueOf(sumColumn(arr, column));
+        return results;
+    }
     
-    public String[] getSumRow(String[][] arr, int[] columns) {
-        return null;
+    private static int max(int[] arr) {
+        int max = Integer.MIN_VALUE;
+        
+        for (int i : arr)
+            if (i > max) max = i;
+        return max;
     }
 }
