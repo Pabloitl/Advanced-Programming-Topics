@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -90,5 +92,31 @@ public class DataBuilder {
         for (int i : arr)
             if (i > max) max = i;
         return max;
+    }
+    
+    public static String[][] countrySums(String[][] arr) {
+        HashMap<String, Integer> result = new HashMap();
+        
+        for (String[] strings : arr) {
+            try {
+                if (result.containsKey(strings[1]))
+                    result.put(strings[1],
+                            result.get(strings[1])
+                                    + Integer.parseInt(strings[3]));
+                else
+                    result.put(strings[1], Integer.parseInt(strings[3]));
+            } catch (Exception e) {
+            }
+        }
+        return transform(result);
+    }
+    
+    private static String[][] transform(HashMap<String, Integer> h) {
+        ArrayList<String[]> result = new ArrayList();
+        
+        for (String string : h.keySet())
+            result.add(new String[] {string, String.valueOf(h.get(string))});
+        
+        return result.toArray(new String[][] {});
     }
 }
