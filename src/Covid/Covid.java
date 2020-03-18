@@ -1,8 +1,10 @@
 package Covid;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Arrays;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -19,10 +21,10 @@ public class Covid {
     JFrame window;
     JPanel leftPanel;
     JList filesList;
-    JTable dataTable;
-    DefaultTableModel dataTableModel;
+    JTable dataTable, countryTable;
+    DefaultTableModel dataTableModel, countryTableModel;
     DefaultTableCellRenderer dataRenderer;
-    JScrollPane filesScroll, tableScroll;
+    JScrollPane filesScroll, tableScroll, countryScroll;
     JLabel fileLabel;
     String[] fileNames;
 
@@ -36,9 +38,18 @@ public class Covid {
         filesList = new JList(fileNames);
         dataTableModel = new DefaultTableModel(
                 Arrays.copyOfRange(data, 1, data.length), data[0]);
+        countryTableModel = new DefaultTableModel(
+            DataBuilder.countrySums(data),
+            new String[] {
+                "Country",
+                "Confirmed"
+            }
+        );
         dataTable = new JTable(dataTableModel);
+        countryTable = new JTable(countryTableModel);
         filesScroll = new JScrollPane(filesList);
         tableScroll = new JScrollPane(dataTable);
+        countryScroll = new JScrollPane(countryTable);
         fileLabel = new JLabel();
         dataRenderer = new DefaultTableCellRenderer();
         dataTableModel.addRow(DataBuilder.getSumRow(data, new int[] { 3, 4, 5 }));
@@ -55,7 +66,8 @@ public class Covid {
         window.setResizable(true);
         window.setLayout(new BorderLayout());
         window.setTitle("COVID-19");
-        leftPanel.setLayout(new BorderLayout());
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setPreferredSize(new Dimension(150, 100));
         filesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         filesList.setSelectedIndex(0);
         filesList.setFont(new Font("Arial", Font.ITALIC, 14));
@@ -69,7 +81,8 @@ public class Covid {
     }
 
     public void armado() {
-        leftPanel.add(filesScroll, BorderLayout.CENTER);
+        leftPanel.add(filesScroll);
+        leftPanel.add(countryScroll);
         window.add(leftPanel, BorderLayout.WEST);
         window.add(fileLabel, BorderLayout.NORTH);
         window.add(tableScroll, BorderLayout.CENTER);
@@ -100,6 +113,10 @@ public class Covid {
             for (int i = 1; i < data.length; i++)
                     dataTableModel.addRow(data[i]);
             dataTableModel.addRow(DataBuilder.getSumRow(data, new int[] { 3, 4, 5 }));
+            
+            countryTableModel.setRowCount(0);
+            for (String[] countrySum : DataBuilder.countrySums(data))
+                countryTableModel.addRow(countrySum);
         }
     }
 }
