@@ -14,11 +14,11 @@ import javax.swing.event.ListSelectionListener;
 
 public class Gui {
     JFrame window;
-    JList colorsList;
-    JScrollPane scrollPane;
     JLabel selectedLabel;
     JPanel colorPanel;
-    
+    JList fgList, bgList;
+    JScrollPane fgScrollPane, bgScrollPane;
+
     enum ColorEnum {
         BLANCO (255, 255, 255),
         ROJO (255, 0, 0),
@@ -28,7 +28,18 @@ public class Gui {
         AZUL (0, 0, 255),
         MORADO (128, 0, 128),
         CAFE (128, 0, 0),
-        NEGRO (0, 0, 0);
+        NEGRO (0, 0, 0),
+        SALMON (250, 128, 114),
+        ROJO_OSCURO (139, 0, 0),
+        CORAL (255, 127, 80),
+        TOMATE (255, 99, 71),
+        DORADO (255, 215, 0),
+        KHAKI (240, 230, 140),
+        LAVANDA (230, 230, 250),
+        OLIVA (128, 128, 0),
+        CHOCOLATE (210, 105, 30);
+
+        private int r, g, b;
 
         public int getR() {
             return r;
@@ -41,23 +52,23 @@ public class Gui {
         public int getB() {
             return b;
         }
-        
-        private int r, g, b;
-        
+
         private ColorEnum(int r, int g, int b) {
             this.r = r;
             this.g = g;
             this.b = b;
         }
     }
-    
+
     public Gui() {
         window        = new JFrame();
-        colorsList    = new JList(ColorEnum.values());
-        scrollPane    = new JScrollPane(colorsList);
         selectedLabel = new JLabel();
         colorPanel    = new JPanel();
-        
+        fgList        = new JList(ColorEnum.values());
+        bgList        = new JList(ColorEnum.values());
+        fgScrollPane  = new JScrollPane(fgList);
+        bgScrollPane  = new JScrollPane(bgList);
+
         this.atributos();
         this.armado();
         this.escuchas();
@@ -65,24 +76,35 @@ public class Gui {
     }
 
     public void atributos() {
-        window.setSize(700, 170);
+        window.setSize(700, 250);
         window.setResizable(true);
         window.setLayout(new BorderLayout());
-        colorsList.setSelectedIndex(0);
-        colorsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        colorsList.setFont(new Font("Arial", Font.BOLD, 20));
-        selectedLabel.setText(colorsList.getSelectedValue().toString());
+        colorPanel.setLayout(new BorderLayout());
         selectedLabel.setHorizontalAlignment(JLabel.CENTER);
+        selectedLabel.setText("Area de prueba");
+        selectedLabel.setFont(new Font("Arial", Font.ITALIC, 24));
+        fgList.setSelectedIndex(0);
+        fgList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        fgList.setFont(new Font("Arial", Font.BOLD, 20));
+        bgList.setSelectedIndex(0);
+        bgList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        bgList.setFont(new Font("Arial", Font.BOLD, 20));
+        updateColors((ColorEnum) fgList.getSelectedValue(),
+                     (ColorEnum) bgList.getSelectedValue());
     }
 
     public void armado() {
-        window.add(scrollPane, BorderLayout.WEST);
-        window.add(selectedLabel, BorderLayout.SOUTH);
+        colorPanel.add(selectedLabel, BorderLayout.CENTER);
         window.add(colorPanel, BorderLayout.CENTER);
+        window.add(fgScrollPane, BorderLayout.WEST);
+        window.add(bgScrollPane, BorderLayout.EAST);
     }
 
     public void escuchas() {
-        colorsList.addListSelectionListener(new Escucha());
+        Escucha escucha = new Escucha();
+
+        fgList.addListSelectionListener(escucha);
+        bgList.addListSelectionListener(escucha);
     }
 
     public void lanzar_GUI() {
@@ -90,19 +112,21 @@ public class Gui {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
-    
+
+    private void updateColors(ColorEnum fg, ColorEnum bg) {
+        colorPanel.setBackground(new Color(bg.getR(),
+                                           bg.getG(),
+                                           bg.getB()));
+        selectedLabel.setForeground(new Color(fg.getR(),
+                                              fg.getG(),
+                                              fg.getB()));
+    }
+
     class Escucha implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
-            ColorEnum selected =
-                    (ColorEnum) colorsList.getSelectedValue();
-            
-            colorPanel.setBackground(new Color(selected.getR(), selected.getG(),
-            selected.getB()));
-            selectedLabel.setText("");
-            selectedLabel.setText(selected.toString());
-            for (int i : colorsList.getSelectedIndices())
-                selectedLabel.setText(selectedLabel.getText() + " " + i);
+            updateColors((ColorEnum) fgList.getSelectedValue(),
+                         (ColorEnum) bgList.getSelectedValue());
         }
     }
 }
