@@ -1,92 +1,30 @@
 package Tabla;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class Gui {
     JFrame window;
     JTable table;
+    JTextArea infoLabel;
     JScrollPane scroll;
     DefaultTableModel tableModel;
-    
-    String[] titles = {
-        "Nombre del Alumno",
-        "Especialidad",
-        "Semestre"
-    };
-    
-    String[][] data = {
-        {
-            "Juan Jose Perez",
-            "Sistemas",
-            "4"
-        },
-        {
-            "Arturo Robledo",
-            "Electromecanica",
-            "9"
-        },
-        {
-            "Luis Najera",
-            "Losistica",
-            "3"
-        },
-        {
-            "Pablo Vargas",
-            "Sistemas",
-            "4"
-        },
-        {
-            "Rebeca Valadez",
-            "Logistica",
-            "2"
-        },
-        {
-            "Pastrano Mesa",
-            "Electromecanica",
-            "1"
-        },
-        {
-            "Juan Jose Perez",
-            "Sistemas",
-            "4"
-        },
-        {
-            "Arturo Robledo",
-            "Electromecanica",
-            "9"
-        },
-        {
-            "Luis Najera",
-            "Losistica",
-            "3"
-        },
-        {
-            "Pablo Vargas",
-            "Sistemas",
-            "4"
-        },
-        {
-            "Rebeca Valadez",
-            "Logistica",
-            "2"
-        },
-        {
-            "Pastrano Mesa",
-            "Electromecanica",
-            "1"
-        }
-    };
-    
+
     public Gui() {
-        window = new JFrame();
-        tableModel = new DefaultTableModel(data, titles);
-        table  = new JTable(tableModel);
-        scroll = new JScrollPane(table);
-        
+        window     = new JFrame();
+        infoLabel  = new JTextArea();
+        tableModel = new DefaultTableModel(Data.data, Data.titles);
+        table      = new JTable(tableModel);
+        scroll     = new JScrollPane(table);
+
         this.atributos();
         this.armado();
         this.escuchas();
@@ -94,37 +32,42 @@ public class Gui {
     }
 
     public void atributos() {
-        window.setSize(350, 200);
+        window.setSize(500, 350);
         window.setResizable(true);
-        table.setBackground(Color.YELLOW);
+        window.setLayout(new BorderLayout());
+        table.setBackground(Color.CYAN);
         table.setSelectionBackground(Color.PINK);
         table.setAutoCreateRowSorter(true);
-        tableModel.addColumn("Nueva Columna");
-        tableModel.addRow(new String[] {
-            "Jasiel",
-            "IGE",
-            "1",
-            "qwerty"
-        });
     }
 
     public void armado() {
-        window.add(scroll);
+        window.add(scroll, BorderLayout.CENTER);
+        window.add(infoLabel, BorderLayout.SOUTH);
     }
 
     public void escuchas() {
+        table.getSelectionModel().addListSelectionListener(new Listener());
     }
 
     public void lanzar_GUI() {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        tableModel.addColumn("Nueva Columna");
-        tableModel.addRow(new String[] {
-            "Jasiel",
-            "IGE",
-            "1",
-            "qwerty"
-        });
+    }
+
+    private class Listener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            int row = table.getSelectedRow();
+            StringBuilder textBuilder = new StringBuilder();
+
+            for (int i = 0; i < table.getColumnCount(); i++)
+                textBuilder
+                    .append(table.getColumnName(i))
+                    .append(": ")
+                    .append(table.getValueAt(row, i))
+                    .append("\n");
+            infoLabel.setText(textBuilder.toString());
+        }
     }
 }

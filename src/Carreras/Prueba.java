@@ -13,8 +13,13 @@ public class Prueba {
             "ELE",
             "IIND"
         };
-        
-        new Carreras(nombresCarreras);
+
+        String[] nombresTurnos = {
+            "Matutino",
+            "Vespertino"
+        };
+
+        new Carreras(nombresCarreras, nombresTurnos);
     }
-    
+
 }
