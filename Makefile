@@ -1,4 +1,4 @@
-NETBEANS=~/.packages/netbeans-8.0.1/
+NETBEANS=~/.packages/netbeans-*/
 ANT=$(NETBEANS)extide/ant/bin/ant
 
 run:
