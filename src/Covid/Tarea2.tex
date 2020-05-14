@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+
+\author{Pablo Vargas Bermúdez}
+
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage{minted}
+
+\begin{document}
+\pagestyle{empty}
+\includepdf[pages=-]{Portada2}
+
+\section*{Planteamiento}
+Al ejercicio de la tarea \# 7, agregue al final de la información de
+los renglones, despues de leer toda la información del archivo,
+obtener la sumatoria de las columnas que tienen datos de Contagio,
+Decesos y Recuperados la sumatoria de la columna. Tenga cuidado al
+separar las columnas, ya que como vimos en clase existen registros que
+contienen comillas y deben ser tomados en cuenta como una unidad vea
+este extracto:
+
+New York,US,2020-03-22T22:13:32,15793,117,0,42.1657,-74.9481
+
+,"Korea, South",2020-03-22T11:13:17,8897,104,2909,35.9078,127.7669
+
+,Switzerland,2020-03-22T23:13:18,7245,98,131,46.8182,8.2275
+
+Y este otro
+
+,Cambodia,2020-01-31T08:15:53,1,0,0
+
+"London, ON",Canada,2020-02-04T00:03:11,1,0,0
+
+,Finland,2020-01-31T08:15:53,1,0,0
+
+en las dos primeras columnas existe la posibilidad que tengan comillas
+por lo tanto deberán ser tomadas en cuenta como una sola entidad. En
+el último ejercicio que tuvimos Creamos una Lista que contenía los
+Países diferente, es decir concentraba todas las regiones que están en
+registros aparte, me parece que solo obtuvimos la lista de países
+diferentes y nos falto calcular los totales de cada país.
+
+Coloca otra tabla debajo de la anterior de manera que muestre los
+totales de infecciones, decesos y recuperaciones por país, ya que esta
+información es que debemos VACIAR a una base de datos como siguiente
+actividad.
+
+\section*{Código}
+\subsection*{Clase Data Builder}
+\inputminted{Java}{DataBuilder.java}
+
+\subsection*{Clase Covid}
+\inputminted{Java}{Covid.java}
+
+\subsection*{Clase Prueba}
+\inputminted{Java}{Prueba.java}
+
+\section*{Ejecución}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{figures/run4.png}
+  \caption{Primera prueba}
+\end{figure}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{figures/run5.png}
+  \caption{Segunda prueba}
+\end{figure}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{figures/run6.png}
+  \caption{Tercera prueba}
+\end{figure}
+
+
+\end{document}

@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage{minted}
+
+\author{Pablo Vargas Bermúdez}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\includepdf[pages=-]{Portada}
+
+\section*{Descripción}
+
+Lea el capitulo \# 14 del libro "Thinking in java, de Bruce Eckel"
+realiza los programas de ejemplo que se muestran hasta antes de
+procesos Demonio. De la página 669 a la 681
+
+Envía un archivo PDF que contenga una hoja de presentación, la
+descripción de la tarea, el código fuente de los ejemplos y las
+capturas de pantalla necesarias donde muestres el correcto
+funcionamiento,
+
+Agrega preguntas o conclusiones
+
+\section*{Código}
+
+\subsection*{Counter 1}
+\inputminted{Java}{Counter1.java}
+\subsection*{SimpleThread}
+\inputminted{Java}{SimpleThread.java}
+\subsection*{Counter 2}
+\inputminted{Java}{Counter2.java}
+\subsection*{Counter 3}
+\inputminted{Java}{Counter3.java}
+\subsection*{Counter 4}
+\inputminted{Java}{Counter4.java}
+
+\section*{Ejecución}
+
+\subsection*{Counter 1}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter1-1.png}
+  \center{Antes de entrar al ciclo}
+\end{center}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter1-2.png}
+  \center{Dentro del ciclo}
+\end{center}
+
+\subsection*{SimpleThread}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/simplethread.png}
+  \center{Creacion de varios hilos}
+\end{center}
+
+\subsection*{Counter 2}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter1-1.png}
+  \center{Antes de entrar al ciclo}
+\end{center}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter1-2.png}
+  \center{Dentros del ciclo}
+\end{center}
+
+\subsection*{Counter 3}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter3-1.png}
+  \center{Antes de entrar al ciclo}
+\end{center}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter3-2.png}
+  \center{Dentros del ciclo}
+\end{center}
+
+\subsection*{Counter 4}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter4-1.png}
+  \center{Antes de entrar al ciclo}
+\end{center}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter4-2.png}
+  \center{Dentros del ciclo}
+\end{center}
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{figures/counter4-3.png}
+  \center{Después de parar algunos botones}
+\end{center}
+
+\section*{Conclusiones}
+
+Cada vez las computadoras tienden a tener mas núcleos dentro de los
+procesadores con los que se utilizan por lo que utilizar mas de un
+hilo en los programas que se desarrollan como lo es Java en este caso
+permite que el potencial de estos procesadores se aproveche con mayor
+eficiencia que si solo utilizaremos un hilo.
+
+Pienso que los hilos además de ser beneficiosos para el rendimiento
+de una pieza de software también es de gran utilidad al diseñar la
+aplicación ya que se puede romper en varias pequeñas acciones las
+cuales pueden no necesitar estar ejecutándose todo el tiempo, pueden
+responder a un evento como lo hemos visto hasta ahora en los
+componentes gráficos y para que esto que se ha mencionado sea posible,
+se utilizan los hilos.
+
+\end{document}

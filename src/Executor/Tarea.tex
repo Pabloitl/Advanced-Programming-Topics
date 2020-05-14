@@ -1,0 +1,197 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{pdfpages}
+
+\author{Pablo Vargas Bermúdez}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\includepdf[pages=-]{Portada}
+
+\section*{Descripción}
+Lea en el libro: Cómo programar en Java de Deitel el capítulo 23.-
+Subprocesamiento múltiple poniendo especial interés en el apartado:
+23.4.2 Administración de subprocesos con el marco de trabajo Executor,
+para que realices la siguiente prueba al codigo que se muestra en la
+figura 23.6
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=\textwidth]{figures/descripcion.png}
+  \caption{Código a probar}
+\end{figure}
+
+
+Agrega otro 3 hilos a los mostrados en el programa, luego cambia la
+linea de código 18 modificando el tipo de ejecutor.
+
+
+\begin{itemize}
+\item Cambiar linea 8 por: ExecutorService excS =
+  Executors.newSingleThreadExecutor(); probar el programa varias veces
+  y observar el funcionamiento.
+\item Cambiar linea 8 por: ExecutorService excS =
+  Executors.newFixedThreadPool(2); probar el programa varias veces y
+  observar el funcionamiento.
+\item Cambiar linea 8 por la línea original.  probar el programa
+  varias veces y observar el funcionamiento.
+\end{itemize}
+
+Contesta las siguientes preguntas:
+
+\begin{enumerate}
+\item ¿Qué cambios notas en la ejecución del programa?
+\item cambia el parámetro en ...newFixedThreadPool(\#); a tu gusto y
+  observa el funcionamiento, ¿que conclusión sacas del valor colocado
+  como argumento?
+\item ¿Que ocurre cuando colocamos uno en el inciso 2)?
+\item ¿podemos poner un valor negativo en el inciso 2)?
+\item mueve la línea 26 del programa original en la posición de la
+  linea 23, ¿que ocurre?  ¿cuál será la razón?
+\end{enumerate}
+
+Envía un archivo PDF que contenga una hoja de presentación, la
+descripción de la tarea, el código fuente de los ejemplos y las
+capturas de pantalla necesarias donde muestres el correcto
+funcionamiento, así como tus respuestas a la preguntas planteadas.
+
+Agrega preguntas o conclusiones
+
+\section*{Código}
+
+\subsection*{Executor}
+\inputminted{Java}{Executor.java}
+\subsection*{ExecutorSingle}
+\inputminted{Java}{ExecutorSingle.java}
+\subsection*{ExecutorFixed}
+\inputminted{Java}{ExecutorFixed.java}
+
+\section*{Ejecución}
+
+\subsection*{Executor}
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executor1.png}
+  \center{Prueba 1}
+\end{center}
+
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executor2.png}
+  \center{Prueba 2}
+\end{center}
+
+\begin{center}
+
+  \includegraphics[width=\textwidth]{figures/executor3.png}
+  \center{Prueba 3: shutdown() en línea 26}
+\end{center}
+
+\subsection*{ExecutorSingle}
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executorSingle1.png}
+  \center{Prueba 1}
+\end{center}
+
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executorSingle2.png}
+  \center{Prueba 2}
+\end{center}
+
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executorSingle3.png}
+  \center{Prueba 3}
+\end{center}
+
+\subsection*{ExecutorFixed}
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executorFixed1.png}
+  \center{Prueba 1}
+\end{center}
+
+\begin{center}
+
+  \includegraphics[width=.7\textwidth]{figures/executorFixed2.png}
+  \center{Prueba 2}
+\end{center}
+
+\begin{center}
+
+  \includegraphics[width=\textwidth]{figures/executorFixed3.png}
+  \center{Prueba 3: Parámetro negativo}
+\end{center}
+
+\section*{Cuestionario}
+
+\begin{enumerate}
+\item ¿Qué cambios notas en la ejecución del programa?
+
+  CachedThreadPool: Parece correr todas las tareas de manera
+  simultanea o en paralelo.
+
+  SingleThreadExecutor: Parece correr una tarea a la vez pero en el
+  orden en el que se le fueron asignando.
+
+  FixedThreadPool: Parece correr solo un determinado numero de
+  subprocesos al mismo tiempo haciendo que los subprocesos que no
+  hayan alcanzado a ser ejecutados esperen en una cola hasta que haya
+  lugar para ellos.
+
+\item cambia el parámetro en ...newFixedThreadPool(\#); a tu gusto y
+  observa el funcionamiento, ¿que conclusión sacas del valor colocado
+  como argumento?
+
+  Hace alusión al numero de subprocesos que pueden correr en paralelo,
+  funciona como un Queue en cuanto termina de ejecutarse un proceso
+  puede ejecutar otro que este esperando.
+
+\item ¿Que ocurre cuando colocamos uno en el inciso 2)?
+
+  Actúa como si solo existiera un hilo, solo se corre un subproceso a
+  la vez y en cuanto termina uno entra el siguiente hasta que todos
+  los subprocesos han sido ejecutados.
+
+\item ¿podemos poner un valor negativo en el inciso 2)?
+
+  No se puede colocar un valor negativo, en caso de que se intente se
+  arrojará una excepción (IllegalArgumentException).
+
+\item mueve la línea 26 del programa original en la posición de la
+  linea 23, ¿que ocurre?  ¿cuál será la razón?
+
+  Una vez que se manda a llamar al método shutdown() se liberan todos
+  los recursos que este utilizando la clase ExecutorService por lo que
+  ya no puede aceptar más subprocesos para ejecutar aunque si va a
+  esperar a que los subprocesos que ya están en ejecución terminen de
+  ejecutarse. Al liberar los recursos utilizados se permite que el
+  colector de basura limpie los hilos que se hayan utilizado y permite
+  que el programa pueda terminar normalmente.
+
+\end{enumerate}
+
+\section*{Conclusión}
+
+El servicio Ejecutor nos da mas flexibilidad al tratar con varios
+hilos además de proveernos con más control en la ejecución de los
+hilos en el transcurso de nuestra aplicación.
+
+Esto se convierte en una alternativa mucho más viable que lo usado en
+tareas anteriores donde se instanciaba un objeto de tipo Thread para
+crear un hilo partiendo de un Runnable, ya que si se realiza esto en
+realidad no se tiene un buen control de los hilos que para ciertas
+aplicaciones puede ser necesario tener.
+
+Además al no ser nosotros los que inicializamos los hilos sino la API
+de Java podemos estar seguros de que se estarían creando de la forma
+más correcta.
+
+\end{document}

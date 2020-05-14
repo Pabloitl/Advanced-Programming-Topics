@@ -1,0 +1,128 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{minted}
+
+\author{Pablo Vargas Bermúdez}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\includepdf[pages=-]{Portada}
+
+\section*{Descripción}
+
+Lea en el libro: Cómo programar en Java de Deitel el capítulo 23.-
+Subprocesamiento múltiple poniendo especial interés en el apartado:
+23.5 Sincronización de Subprocesos
+
+teclea el código de la figura 23.9 y comprueba su funcionamiento
+varias veces para que notes que se llegan a perder valores.
+
+Modifica el método de la clase ArregloSimple
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=\textwidth]{figures/descripcion.png}
+  \caption{Modificaciones}
+\end{figure}
+
+
+Comprueba que ahora no existe perdida de información.
+
+\begin{itemize}
+\item ¿Crees que es importante la Sincronización?
+\item Da un ejemplo real donde crees que esto podría funcionar.
+\item ¿Cuando no sería necesaria la sincronización de procesos?
+\end{itemize}
+
+Envía un archivo PDF que contenga una hoja de presentación, la
+descripción de la tarea, el código fuente de los ejemplos y las
+capturas de pantalla necesarias donde muestres el correcto
+funcionamiento, así como tus respuestas a la preguntas planteadas.
+
+Agrega preguntas o conclusiones
+
+\section*{Código}
+
+\subsection*{Arreglo Simple}
+\inputminted{Java}{ArregloSimple.java}
+\subsection*{Escritor Arreglo}
+\inputminted{Java}{EscritorArreglo.java}
+\subsection*{Prueba Arreglo Compartido}
+\inputminted{Java}{PruebaArregloCompartido.java}
+
+\section*{Ejecución}
+
+\subsection*{Sin ``synchronized''}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/sin1.png}
+  \caption{Sin ``syncrhonized'' 1}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/sin2.png}
+  \caption{Sin ``syncrhonized'' 2}
+\end{figure}
+
+\subsection*{Con ``synchronized''}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/con1.png}
+  \caption{Con ``syncrhonized'' 1}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/con2.png}
+  \caption{Con ``syncrhonized'' 2}
+\end{figure}
+
+\section*{Cuestionario}
+
+\begin{itemize}
+\item ¿Crees que es importante la Sincronización?
+
+  Cuando existen hilos o subprocesos concurrentes, es decir, que
+  modifican o trabajan con la misma variable si es muy importante que
+  estén sincronizados porque de no ser así los hilos modificarían tal
+  variable sin saber que esta ya ah sido cambiada por otro hilo, lo
+  que puede dar resultados inesperados como se pudo observar en esta
+  tarea en la que al modificar un mismo arreglo se perdían valores.
+
+\item Da un ejemplo real donde crees que esto podría funcionar.
+
+  Una aplicación en la que este concepto puede ser útil es en la
+  gestión de archivos de un servidos ya que los métodos de
+  lectura/escritura deben de estar sincronizados para evitar errores
+  de que dos o más usuarios intenten escribir al mismo archivo
+  justamente al mismo tiempo, ya que si se permite que escriban al
+  mismo tiempo se pueden perder los contenidos de ese archivo como se
+  pudo observar en el arreglo de esta tarea.
+
+\item ¿Cuando no sería necesaria la sincronización de procesos?
+
+  Cuando los procesos no modifiquen recursos en común o que no sean
+  concurrentes, sino paralelos, no afectaría la falta de
+  sincronización entre los procesos como en los ejemplos de tareas
+  anteriores.
+
+\end{itemize}
+
+\section*{Conclusión}
+
+La sincronización de los subprocesos y hilos es muy importante cuando
+el objetivo es que cada subproceso o hilo modifique la misma variable
+ya que muchas veces por no presumir que en todas las aplicaciones en
+las que puedo pensar, si se va a modificar un valor varias veces se
+necesita sabes cual era el valor de la variable antes de que el hilo
+lo modificara y al poder ser cambiado por dos o más hilos al mismo
+tiempo este principio no se sostiene y nos empezamos a enfrentar a
+resultados inesperados.
+
+\end{document}

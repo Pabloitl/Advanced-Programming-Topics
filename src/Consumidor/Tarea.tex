@@ -1,0 +1,144 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{pdfpages}
+\usepackage{minted}
+\usepackage{graphicx}
+\usepackage{float}
+
+\author{Pablo Vargas Bermúdez}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\includepdf[pages=-]{Portada}
+
+\section*{Descripción}
+
+Lea en el libro: Cómo programar en Java de Deitel el capítulo 23.-
+Subprocesamiento múltiple poniendo especial interés en el apartado:
+23.6 Relación productor/consumidor sin sincronización, de las figuras
+23.11 a la 23.15 viene un ejemplo completo, teclea las clases
+necesarias para probar el funcionamiento de éste ejercicio, ejecuta
+varias veces el programa para que compruebes que es inadecuada esta
+solución.
+
+Crea un diagrama UML de las clases utilizadas mostrando las relaciones
+de las interfaces usadas.
+
+Conteste las siguientes preguntas:
+
+\begin{itemize}
+\item ¿puedo crear 2 más hilos Productores y un solo consumidor? (en
+  el main copia la linea 23) ejecuta el programa y da una conclusión
+\item ¿se pueden crear un productor y 2 o más consumidores? (copia la
+  linea 24 de main) ejecuta el programa y da una conclusión
+\item Ahora crea varios productores y varios consumidores. ejecuta el
+  programa y da una conclusión
+\end{itemize}
+
+
+Envía un archivo PDF que contenga una hoja de presentación, la
+descripción de la tarea, el diagrama UML obtenido, el código fuente de
+los ejemplos y las capturas de pantalla necesarias donde muestres el
+correcto funcionamiento, así como tus respuestas a la preguntas
+planteadas.
+
+Agrega preguntas o conclusiones
+
+\section*{Diagrama UML}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/UML.png}
+  \caption{Diagrama UML}
+\end{figure}
+
+\begin{center}
+\end{center}
+
+\section*{Código}
+
+\subsection*{Bufer}
+\inputminted{Java}{Bufer.java}
+\subsection*{Consumidor}
+\inputminted{Java}{Consumidor.java}
+\subsection*{Productor}
+\inputminted{Java}{Productor.java}
+\subsection*{BuferSinSincronizacion}
+\inputminted{Java}{BuferSinSincronizacion.java}
+\subsection*{PruebaBuferCompartido}
+\inputminted{Java}{PruebaBuferCompartido.java}
+
+\section*{Ejecución}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/normal.png}
+  \caption{Ejecución con código original}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/productores.png}
+  \caption{Más productores}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/consumidores.png}
+  \caption{Más consumidores}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/varios.png}
+  \caption{Varios productores y consumidores}
+\end{figure}
+
+\section*{Cuestionario}
+
+\begin{itemize}
+\item ¿puedo crear 2 más hilos Productores y un solo consumidor? (en
+  el main copia la linea 23) ejecuta el programa y da una conclusión
+
+  Si se pueden crear más de un Productor, lo que parece suceder es que
+  los productores escriben mucho más rápido que lo que un solo
+  consumidor puede contar por lo que la diferencia entre la cantidad
+  contada y la producida aumenta, se tiende a contar menos de lo
+  producido.
+
+\item ¿se pueden crear un productor y 2 o más consumidores? (copia la
+  linea 24 de main) ejecuta el programa y da una conclusión
+
+  Si se pueden crear más de un Productor, lo que sucede en este caso
+  es muy similar al anterior pero de cierta forma contrario, ahora se
+  leen más valores de los que se producen por lo que la cuenta que los
+  consumidores realizan termina siendo (en la mayoría de los casos)
+  mayor a lo generado por el productor.
+
+\item Ahora crea varios productores y varios consumidores. ejecuta el
+  programa y da una conclusión
+
+  En este caso, con un número igual de productores y consumidores
+  mayor a uno se puede observar como la diferencia entre los números
+  generados y los contados disminuye pero igual sigue siendo
+  incorrecta, este caso tiende a ser bastante similar al que se podía
+  observar con el código original con la diferencia en la cantidad de
+  números generados y leídos producidos.
+
+\end{itemize}
+
+\section*{Conclusiones}
+
+En esta tarea se puede apreciar la importancia de la sincronización
+entre dos o más subprocesos o hilos que tienen recursos compartidos (a
+los que se puede leer o escribir), precisamente por la falta de
+sincronización se producen muchos errores a la hora de contar los
+números producidos además de poder apreciar fenómenos como que un
+productor escriba dos valores consecutivamente (sobre escribiendo el
+valor de la variable) evitando que se cuenten los números que ah
+producido o en el caso contrario se puede observar como en algunas
+ocasiones se leen dos veces seguidas un mismo valor contándose dos
+veces, por lo tanto afectando el resultado final y alejándolo del
+valor correcto.
+
+\end{document}
