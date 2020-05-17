@@ -1,9 +1,64 @@
 \documentclass[12pt]{article}
 
+\usepackage[margin=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{minted}
+\usepackage{float}
+
 \author{Pablo Vargas Bermúdez}
 
 \begin{document}
 
+\pagestyle{empty}
 
+\includepdf[pages=-]{Portada}
+
+\section*{Descripción}
+Crea un programa que cree hilos para escribir tu nombre de la
+siguiente manera:
+
+Supongamos que nuestro nombre es "Alan Raúl López Estrada" y deseamos
+que nuestro nombre se escriba 10 veces en la pantalla el Hilo tipo 1
+escribe solamente los números,
+
+El Hilo tipo 2 escribe solamente "Alan"
+El Hilo tipo 3 escribe solamente "Raúl"
+El Hilo tipo 4 escribe solamente "López"
+El Hilo tipo 5 escribe solamente "Estrada"
+
+Al correr nuestro programa deberemos obtener en consola lo siguiente:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{figures/descripcion.png}
+  \caption{Muestra}
+\end{figure}
+
+
+En el main deberás de lanzar en total 20 hilos de los tipos indicados.
+
+Modifica los tipos de hilo para que escriban tu nombre, quizás
+necesites crear mas tipos de hilo.
+
+Envía un archivo PDF que contenga una hoja de presentación, la
+descripción de la tarea, el código fuente de los ejemplos y las
+capturas de pantalla necesarias donde muestres el correcto
+funcionamiento.
+
+\section*{Código}
+
+\subsection*{Nombre}
+\inputminted{Java}{Nombre.java}
+\subsection*{Prueba nombre}
+\inputminted{Java}{PruebaNombre.java}
+
+\section*{Ejecución}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\textwidth]{figures/run.png}
+  \caption{Prueba de ejecución}
+\end{figure}
 
 \end{document}
